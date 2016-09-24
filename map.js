@@ -1,3 +1,5 @@
+$("document").ready(function(){
+
       function initMap() {
           var myLatLng = { lat: 40.785095, lng: -73.9664 };
 
@@ -25,3 +27,5 @@
 
           });
       }
+
+})
