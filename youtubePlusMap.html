@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>furry tails come true</title>
+	<!-- Latest compiled and minified CSS & JS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<style>
+		.myJumbo{
+			background-color: salmon;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class='col-md-6 col-md-offset-3'>
+			<div class="well myJumbo text-center">
+				<h2>furry tails do come true</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+		<div class="panel-info panel">
+			<div class="panel-heading">
+				<div class="panel-title">Video</div>
+			</div>
+
+			<div class="input-group">
+				<input id='breedInput' class='form-control' type="text">
+				<span class="input-group-btn">
+					<input id="submitBtn" type="submit" class="btn-info btn input-group">Submit</input>	
+				</span>
+			</div>
+
+
+			<div class="youtube panel-body text-center">
+			
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+//youtube API key: AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs
+//Sample API object
+//https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs&q=yorkie%20care
+
+var breedInput = '';
+
+function youtubeQuery(){
+	var animalBreed = breedInput;
+	var	APIkey = "AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs";
+	var	baseURL = "https://www.googleapis.com/youtube/v3/search?";
+	var queryURL = baseURL + 'part=snippet&key=' + APIkey + '&q=' + animalBreed + '%20heartwarming';
+
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	}).done(function(response){
+		parseYoutube(response);
+	});
+}
+
+function parseYoutube(data){
+	$('.youtube').html('');
+	var itemsIndex = Math.floor(Math.random()*5);
+	var firstVidId = data.items[itemsIndex].id.videoId;
+
+	console.log(firstVidId);
+
+	var iframeURL = 'https://youtube.com/embed/' + firstVidId;
+	console.log(iframeURL);
+	var youtubeVid = $('<iframe>');
+	youtubeVid.attr('width', 420);
+	youtubeVid.attr('height', 315);
+	youtubeVid.attr('frameborder', 0);
+	youtubeVid.attr('src', iframeURL);
+	$('.youtube').append(youtubeVid);
+}
+
+$('#submitBtn').on('click', function(){
+	breedInput = $('#breedInput').val().trim();
+	console.log(breedInput);
+	youtubeQuery();
+
+});
+
+
+
+
+</script>
