@@ -1,0 +1,14 @@
+html, body {
+	height: 100%,
+	margin: 0,
+	padding: 0;
+
+}
+#leftPanel {
+	height: 100%;
+}
+
+#map {
+	position: absolute;
+	height: 100%,
+}
