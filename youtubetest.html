@@ -17,24 +17,26 @@
 <body>
 <div class="container">
 	<div class="row">
-		<div class='col-md-6 col-md-offset-3'>
+		<div class='col-md-6'>
 			<div class="well myJumbo text-center">
 				<h2>furry tails do come true</h2>
 			</div>
 		</div>
+		<div id="map"></div>
 	</div>
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-6">
 		<div class="panel-info panel">
 			<div class="panel-heading">
-				<div class="panel-title">Video</div>
+				<div class="panel-title">Info</div>
 			</div>
 
-			<div class="input-group">
-				<input id='breedInput' class='form-control' type="text">
-				<span class="input-group-btn">
-					<input id="submitBtn" type="submit" class="btn-info btn input-group">Submit</input>	
-				</span>
+			<div> <!-- div.input-group -->
+				<input id='breedInput' placeholder="Enter animal breed here" class='form-control' type="text">
+				<input type="text" id="zipInput" class="form-control" placeholder="Enter your ZIP code here">
+				<!-- <span class="input-group-btn"> -->
+				<input id="submitBtn" type="submit" class="btn-info btn input-group"></input>	
+				<!-- </span> -->
 			</div>
 
 
@@ -52,6 +54,7 @@
 //https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs&q=yorkie%20care
 
 var breedInput = '';
+var zip = '';
 
 function youtubeQuery(){
 	var animalBreed = breedInput;
@@ -66,6 +69,29 @@ function youtubeQuery(){
 		parseYoutube(response);
 	});
 }
+
+function zipCodeQuery(){
+	// var userZip = zipInput;
+	var userZip = zipInput;
+	//Geocodio API
+	var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
+	var baseURL = 'https://api.geocod.io/v1/geocode?api_key=';
+	var queryURL = baseURL+ APIkey + '&q=' + userZip;
+
+	var latitude = '';
+	var longitude;
+
+	$.ajax({
+		url: queryURL,
+		method: 'GET'
+	}).done(function(response){	
+		console.log(response.results[0].location.lat);		
+		console.log(response.results[0].location.lng);		
+	});
+	console.log(queryURL);
+}
+
+
 
 function parseYoutube(data){
 	$('.youtube').html('');
@@ -85,10 +111,13 @@ function parseYoutube(data){
 }
 
 $('#submitBtn').on('click', function(){
+	//assign user input to variables
 	breedInput = $('#breedInput').val().trim();
+	zipInput = $('#zipInput').val().trim();
+
 	console.log(breedInput);
 	youtubeQuery();
-
+	zipCodeQuery();
 });
 
 
