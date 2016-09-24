@@ -54,20 +54,35 @@
 		<div class="col-md-6">
 			<div class="panel-default panel">
 				<div class="panel-heading">
-					<div class="panel-title">User</div>
+					<div class="panel-title">Your searches: </div>
 				</div>
 				<div class="panel-body">
-					
+					<div class="well" id="userData"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+
 <script>
 //youtube API key: AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs
 //Sample API object
 //https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs&q=yorkie%20care
+
+//FIREBASE INITIALIZATION
+var config = {
+apiKey: "AIzaSyCrZe44spLnlTFFQngHRRKyIdWO6SDRQ3U",
+authDomain: "furrytails-ce05b.firebaseapp.com",
+databaseURL: "https://furrytails-ce05b.firebaseio.com",
+storageBucket: "",
+messagingSenderId: "1048666912000"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+//END FIREBASE INIT
 
 var breedInput = '';
 var zip = '';
@@ -131,11 +146,27 @@ $('#submitBtn').on('click', function(){
 	breedInput = $('#breedInput').val().trim();
 	zipInput = $('#zipInput').val().trim();
 
+	var userDataObject = {
+		breed: breedInput,
+		zipcode: zipInput
+	};
+
+	database.ref().push(userDataObject);
+
 	console.log(breedInput);
 	if (breedInput) youtubeQuery();
 	if (zipInput) zipCodeQuery();
+
+	return false;
 });
 
+
+
+database.ref().on('child_added', function(snapshot, prevChildKey){
+	// $('.well').empty();
+	$('#userData').append('Breed: ' + snapshot.val().breed + '&nbsp;');
+	$('#userData').append('Location: ' + snapshot.val().zipcode + '<br>');
+})
 
 
 
