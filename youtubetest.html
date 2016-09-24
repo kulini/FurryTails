@@ -116,8 +116,8 @@ $('#submitBtn').on('click', function(){
 	zipInput = $('#zipInput').val().trim();
 
 	console.log(breedInput);
-	youtubeQuery();
-	zipCodeQuery();
+	if (breedInput) youtubeQuery();
+	if (zipInput) zipCodeQuery();
 });
 
 
