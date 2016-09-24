@@ -21,7 +21,7 @@ We've adopted <span id="adoptedPetsCount">a lot of</span> pets!
 var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSearch","search":{"calcFoundRows":"Yes","resultStart":0,"resultLimit":10,
 
 // THIS IS WHAT INFORMATION WILL SHOW IN THE DATA
-"fields":["animalName", "animalSpecies", "animalPictures","animalLocationPublic","animalSizeCurrent","animalLocationCitystate","animalStatus","animalLocationZipcode","animalBreed","animalSex","animalHousetrained","animalGeneralAge","animalDescription","animalNotes","animalObedienceTraining","animalOKWithAdults", "animalAdoptionPending", "animalPrimaryBreed", "animalSizeCurrent", "animalSummary",  "ownerAddress","locationAddress", "locationAnimals", "contactCompany", "locationPhone", "locationName" ],
+"fields":["animalName", "animalSpecies", "animalPictures","animalLocationPublic","animalSizeCurrent","animalLocationCitystate","animalStatus","animalLocationZipcode","animalBreed","animalSex","animalHousetrained","animalGeneralAge","animalDescription","animalNotes","animalObedienceTraining","animalOKWithAdults", "animalAdoptionPending", "animalPrimaryBreed", "animalSizeCurrent", "animalSummary",  "ownerAddress","locationAddress", "locationAnimals", "contactCompany", "locationPhone", "locationName", "animalColor" ],
 
 // THESE ARE THE SEARCH PARAMETERS TO SPECIFICALLY FIND WHAT ANIMAL
 "filters":[
@@ -30,7 +30,8 @@ var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSe
 {"fieldName":"animalLocation","operation":"equals","criteria":"07646"},
 {"fieldName":"animalStatus","operation":"equals","criteria":"Available"},
 {"fieldName": "locationAddress", "operation": "notblank", "criteria": "true"},
-{"fieldName": "locationPhone", "operation": "notblank", "criteria": "true"}
+{"fieldName": "locationPhone", "operation": "notblank", "criteria": "true"},
+{"fieldName": "animalHousetrained", "operation": "notblank", "criteria": "true"}
 
 ]}};
 var encoded = $.toJSON(thing)
@@ -53,13 +54,16 @@ $.ajax({
 			console.log(animalName[i].animalName);
 			console.log(animalName[i].animalBreed);
 			console.log(animalName[i].animalSex);
+			console.log(animalName[i].animalColor);
+			console.log(animalName[i].animalPictures[0].urlSecureFullsize)
+
 			console.log(animalName[i].animalObedienceTraining)
 			console.log(animalName[i].animalHousetrained);
 			console.log(animalName[i].animalGeneralAge);
 			console.log(animalName[i].locationName);
 			console.log(animalName[i].locationAddress);
 			console.log(animalName[i].animalLocationCitystate);
-			console.log(animalName[i].animalStatus);
+			console.log(animalName[i].locationPhone);
 			console.log("========================================")
 		}
 
