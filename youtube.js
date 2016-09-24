@@ -1,3 +1,17 @@
+//When user presses submit button, stores user input in a variable and 
+$('#submitBtn').on('click', function(){
+	breedInput = $('#breedInput').val().trim();
+	zipInput = $('#zipInput').val().trim();
+
+	console.log(breedInput);
+	console.log(zipInput);
+	youtubeQuery();
+	//makes an API call to geocod.io with to translate the user's zip code into latitude & longitude co-ordinates
+	zipCodeQuery();
+
+});
+
+
 //Places an ajax call to youtube API
 function youtubeQuery(){
 	var animalBreed = breedInput;
@@ -32,10 +46,28 @@ function parseYoutube(data){
 	$('.youtube').append(youtubeVid);
 }
 
-//When user presses submit button, stores user input in a variable and 
-$('#submitBtn').on('click', function(){
-	breedInput = $('#breedInput').val().trim();
-	console.log(breedInput);
-	youtubeQuery();
+function zipCodeQuery(){
 
-});
+	var userZip = zipInput;
+	//Geocodio API
+	var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
+	var baseURL = 'https://api.geocod.io/v1/geocode?api_key=';
+	var queryURL = baseURL+ APIkey + '&q=' + userZip;
+
+	var latitude = '';
+	var longitude = '';
+
+	$.ajax({
+		url: queryURL,
+		method: 'GET'
+	}).done(function(response){	
+		latitude = response.results[0].location.lat;
+		longitude = response.results[0].location.lng;
+		//testing
+		console.log(response.results[0].location.lat);		
+		console.log(response.results[0].location.lng);	
+
+		//calls function that displays google map
+		initMap(latitude, longitude);
+	});
+}

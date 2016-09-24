@@ -161,11 +161,16 @@ $('#submitBtn').on('click', function(){
 });
 
 
-
+//Updates HTML with data from firebase
 database.ref().on('child_added', function(snapshot, prevChildKey){
 	// $('.well').empty();
+	if (snapshot.val().breed){
 	$('#userData').append('Breed: ' + snapshot.val().breed + '&nbsp;');
+	}
+
+	if (snapshot.val().zipcode){
 	$('#userData').append('Location: ' + snapshot.val().zipcode + '<br>');
+	}
 })
 
 
