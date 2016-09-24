@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 	<title>furry tails come true</title>
 	<!-- Latest compiled and minified CSS & JS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -12,6 +13,15 @@
 			background-color: salmon;
 			color: white;
 		}
+
+		html, body {
+	    height: 100%;
+	    margin: 0;
+	    padding: 0;
+    	}
+    	#map {
+    	  height: 100%;
+    	}
 	</style>
 </head>
 <body>
@@ -25,23 +35,30 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-		<div class="panel-info panel">
-			<div class="panel-heading">
-				<div class="panel-title">Video</div>
-			</div>
+			<div class="panel-info panel">
+				<div class="panel-heading">
+					<div class="panel-title">Video</div>
+				</div>
 
-			<div class="input-group">
-				<input id='breedInput' class='form-control' type="text">
-				<span class="input-group-btn">
-					<input id="submitBtn" type="submit" class="btn-info btn input-group">Submit</input>	
-				</span>
-			</div>
+				<div class="input-group">
+					<input id='breedInput' class='form-control' type="text">
+					<span class="input-group-btn">
+						<input id="submitBtn" type="submit" class="btn-info btn input-group">Submit</input>	
+					</span>
+				</div>
 
 
-			<div class="youtube panel-body text-center">
-			
+				<div class="youtube panel-body text-center">
+				
+				</div>
 			</div>
 		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div id="map">
+				hi there
+			</div>
 		</div>
 	</div>
 </div>
@@ -53,6 +70,7 @@
 
 var breedInput = '';
 
+//Places an ajax call to youtube API
 function youtubeQuery(){
 	var animalBreed = breedInput;
 	var	APIkey = "AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs";
@@ -63,10 +81,12 @@ function youtubeQuery(){
 		url: queryURL,
 		method: "GET"
 	}).done(function(response){
+		//see below for desc
 		parseYoutube(response);
 	});
 }
 
+//Places youtube iframe vid in the HTML
 function parseYoutube(data){
 	$('.youtube').html('');
 	var itemsIndex = Math.floor(Math.random()*5);
@@ -84,6 +104,7 @@ function parseYoutube(data){
 	$('.youtube').append(youtubeVid);
 }
 
+//When user presses submit button, stores user input in a variable and 
 $('#submitBtn').on('click', function(){
 	breedInput = $('#breedInput').val().trim();
 	console.log(breedInput);
@@ -91,7 +112,38 @@ $('#submitBtn').on('click', function(){
 
 });
 
+function initMap() {
+    var myLatLng = {lat: 40.785095, lng: -73.9664};
 
+    var test = {
+      path: 'm 10,10 -7.61371,7.83054 2.13428,10.71125 -9.80005,-4.8213 -9.52746,5.33978 1.55694,-10.81027 -8.02258,-7.41107 10.76229,-1.85982 4.56924,-9.92008 5.09452,9.66084 z',
+      fillColor: 'red',
+      fillOpacity: 1,
+      scale: 1,
+      strokeColor: 'black',
+      strokeWeight: 5
+    };
 
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: myLatLng
+    });
 
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: 'Hello World!',
+      animation: google.maps.Animation.DROP,
+      icon: test,
+      draggable: false,
+
+    });
+  }
+
+$('#map').html('What the');
 </script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrt3-isQtycN-cNj4VLUyucAURQOaqoTc&callback=initMap">
+</script>
+</body>
+</html>

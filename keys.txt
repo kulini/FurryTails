@@ -1,0 +1,13 @@
+Rescue groups:  
+2mV1s2Z2
+
+Google maps:  
+AIzaSyB-I-o0-m7YCFoAs4O3IjOqqPtjqF1AB-k
+
+Youtube: 
+AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs
+
+Geocodio:
+8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d
+
+https://api.geocod.io/v1/geocode?q=42370&api_key=fe581ab019468a20e861a5242c
