@@ -14,6 +14,7 @@ $('#submitBtn').on('click', function(){
 
 //Places an ajax call to youtube API
 function youtubeQuery(){
+	//breedInput is user's entry in the text field
 	var animalBreed = breedInput;
 	var	APIkey = "AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs";
 	var	baseURL = "https://www.googleapis.com/youtube/v3/search?";
@@ -70,4 +71,62 @@ function zipCodeQuery(){
 		//calls function that displays google map
 		initMap(latitude, longitude);
 	});
+}
+
+
+function rescueGroupsQuery(){
+	var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSearch","search":{"calcFoundRows":"Yes","resultStart":0,"resultLimit":10,
+
+	// THIS IS WHAT INFORMATION WILL SHOW IN THE DATA
+	"fields":["animalName", "animalSpecies", "animalPictures","animalLocationPublic","animalSizeCurrent","animalLocationCitystate","animalStatus","animalLocationZipcode","animalBreed","animalSex","animalHousetrained","animalGeneralAge","animalDescription","animalNotes","animalObedienceTraining","animalOKWithAdults", "animalAdoptionPending", "animalPrimaryBreed", "animalSizeCurrent", "animalSummary",  "ownerAddress","locationAddress", "locationAnimals", "contactCompany", "locationPhone", "locationName", "animalColor" ],
+
+	// THESE ARE THE SEARCH PARAMETERS TO SPECIFICALLY FIND WHAT ANIMAL
+	"filters":[
+	{"fieldName":"animalSpecies","operation":"equals","criteria":"dog"},
+	{"fieldName":"animalLocationDistance","operation":"radius","criteria":"50"},
+	{"fieldName":"animalLocation","operation":"equals","criteria":"07024"},
+	{"fieldName":"animalStatus","operation":"equals","criteria":"Available"},
+	{"fieldName": "locationAddress", "operation": "notblank", "criteria": "true"},
+	{"fieldName": "locationPhone", "operation": "notblank", "criteria": "true"},
+	{"fieldName": "animalHousetrained", "operation": "notblank", "criteria": "true"}
+
+	]}};
+	var encoded = $.toJSON(thing)
+
+	// console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
+
+
+	 
+	$.ajax({
+	  url: "https://api.rescuegroups.org/http/json/?data=" + encoded, 
+	  dataType: "jsonp",
+	  success: function(data) {
+	        if (data.foundRows) document.getElementById('adoptedPetsCount').innerHTML = data.foundRows;
+	        
+	        // USE LO DASH " _. " TO TRANSFORM AN OBJECT TO AN ARRAY
+	        var animalName = _.toArray(data.data);
+	 		console.log(animalName);
+
+			for(var i=0; i<animalName.length; i++) {
+				console.log(animalName[i].animalName);
+				console.log(animalName[i].animalBreed);
+				console.log(animalName[i].animalSex);
+				console.log(animalName[i].animalColor);
+				console.log(animalName[i].animalPictures[0].urlSecureFullsize)
+				console.log(animalName[i].animalObedienceTraining)
+				console.log(animalName[i].animalHousetrained);
+				console.log(animalName[i].animalGeneralAge);
+				console.log(animalName[i].locationName);
+				console.log(animalName[i].locationAddress);
+				console.log(animalName[i].animalLocationCitystate);
+				console.log(animalName[i].locationPhone);
+				console.log("========================================")
+			}
+
+
+	  },
+	  error: function(xhr, status, error) {
+	    console.log('error');
+	  }
+	}); 
 }
