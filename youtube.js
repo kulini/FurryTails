@@ -5,10 +5,12 @@ $('#submitBtn').on('click', function(){
 
 	console.log(breedInput);
 	console.log(zipInput);
+	//make an API call to youtube for a video with the breedInput as query keyword
 	youtubeQuery();
-	//makes an API call to geocod.io with to translate the user's zip code into latitude & longitude co-ordinates
+	//make an API call to geocod.io with to translate the user's zip code into latitude & longitude co-ordinates
 	zipCodeQuery();
-
+	//make an API call to rescuegroups.org with user's zip code (zipInput)
+	rescueGroupsQuery();
 });
 
 
@@ -75,6 +77,8 @@ function zipCodeQuery(){
 
 
 function rescueGroupsQuery(){
+	zipInput = $('#zipInput').val().trim();
+
 	var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSearch","search":{"calcFoundRows":"Yes","resultStart":0,"resultLimit":10,
 
 	// THIS IS WHAT INFORMATION WILL SHOW IN THE DATA
@@ -84,7 +88,7 @@ function rescueGroupsQuery(){
 	"filters":[
 	{"fieldName":"animalSpecies","operation":"equals","criteria":"dog"},
 	{"fieldName":"animalLocationDistance","operation":"radius","criteria":"50"},
-	{"fieldName":"animalLocation","operation":"equals","criteria":"07024"},
+	{"fieldName":"animalLocation","operation":"equals","criteria":zipInput},
 	{"fieldName":"animalStatus","operation":"equals","criteria":"Available"},
 	{"fieldName": "locationAddress", "operation": "notblank", "criteria": "true"},
 	{"fieldName": "locationPhone", "operation": "notblank", "criteria": "true"},
@@ -94,14 +98,14 @@ function rescueGroupsQuery(){
 	var encoded = $.toJSON(thing)
 
 	// console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
-
-
 	 
 	$.ajax({
 	  url: "https://api.rescuegroups.org/http/json/?data=" + encoded, 
 	  dataType: "jsonp",
 	  success: function(data) {
-	        if (data.foundRows) document.getElementById('adoptedPetsCount').innerHTML = data.foundRows;
+	        if (data.foundRows) {
+	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + data.foundRows;
+	        }
 	        
 	        // USE LO DASH " _. " TO TRANSFORM AN OBJECT TO AN ARRAY
 	        var animalName = _.toArray(data.data);
@@ -122,8 +126,6 @@ function rescueGroupsQuery(){
 				console.log(animalName[i].locationPhone);
 				console.log("========================================")
 			}
-
-
 	  },
 	  error: function(xhr, status, error) {
 	    console.log('error');
