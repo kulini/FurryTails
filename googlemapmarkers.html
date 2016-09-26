@@ -31,7 +31,7 @@ function rescueGroupsQuery(){
 				"calcFoundRows":"Yes",
 				"resultStart":0,
 				"resultLimit":5,
-				// THIS IS WHAT INFORMATION WILL SHOW IN THE DATA
+				//Properties of each pet that the query returns
 				"fields":
 					[	"animalName", 
 						"animalSpecies", 
@@ -61,7 +61,7 @@ function rescueGroupsQuery(){
 						"locationName", 
 						"animalColor" ],
 
-				// THESE ARE THE SEARCH PARAMETERS TO SPECIFICALLY FIND WHAT ANIMAL
+				// SEARCH PARAMETERS for query
 				"filters":
 					[
 						{"fieldName":"animalSpecies",
@@ -115,7 +115,6 @@ function rescueGroupsQuery(){
 				//fetches the City and State of each pet from the API call
 				location = animalName[i].animalLocationCitystate;
 				location = location.toString();
-				// console.log(location);
 
 				//Pushes the city and state to an array (locationArray)
 				//alternative to push() method, which didn't work
@@ -123,6 +122,7 @@ function rescueGroupsQuery(){
 				//obtain latitude and longitude for each pet City & State, using zipCodeQuery function	
 				zipCodeQuery(location);	
 			}
+			//
 			console.log(locationArray);
 			// console.log(longitudeArray);
 	  },
@@ -158,7 +158,7 @@ function zipCodeQuery(locationFromArray){
 		}
 		console.log(latAndLng);
 
-		//Appends the lat & long object to the array
+		//Appends the lat & long object to the array declared globally
 		latAndLngArray.push(latAndLng);
 
 	});
@@ -166,7 +166,9 @@ function zipCodeQuery(locationFromArray){
 
 function displayLatitudeLongitude(){
 	rescueGroupsQuery();
+	//encountering a bug here. does not show a proper array that we can work with
 	console.log(latAndLngArray);
+	console.log(latAndLngArray[0].lat);
 
 }
 
