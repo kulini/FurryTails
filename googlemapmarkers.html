@@ -12,11 +12,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.1/lodash.js"></script>
 <script>
-
+//array of city & state pulled from rescuegroups API
 var locationArray 	=  new Array();
-
-var longitudeArray 	=  new Array();
-var latitudeArray 	=  new Array();
+//array, created by using geocod.io, to convert city & state into lat & long coordinates
+var latAndLngArray =  new Array();
 
 function rescueGroupsQuery(){
 	//User input for zipcode
@@ -99,22 +98,23 @@ function zipCodeQuery(locationFromArray){
 		latitude = response.results[0].location.lat;
 		longitude = response.results[0].location.lng;
 
-		longitudeArray.push(longitude);		
-		latitudeArray.push(latitude);
-	
-		//testing
-		// console.log(response.results[0].location.lat);		
-		// console.log(response.results[0].location.lng);	
+		//creates an object with latitude and longitude
+		var latAndLng = {
+			'lat': latitude,
+			'lng': longitude
+		}
+		console.log(latAndLng);
 
-		//calls function that displays google map
-		// initMap(latitude, longitude);
+		//Appends the lat & long object to the array
+		latAndLngArray.push(latAndLng);
+
 	});
 }
 
 function displayLatitudeLongitude(){
 	rescueGroupsQuery();
-	console.log(latitudeArray);
-	console.log(longitudeArray);
+	console.log(latAndLngArray);
+	// console.log(longitudeArray);
 }
 
 displayLatitudeLongitude();
