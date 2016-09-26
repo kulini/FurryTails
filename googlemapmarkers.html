@@ -22,24 +22,77 @@ function rescueGroupsQuery(){
 	// zipInput = $('#zipInput').val().trim();
 	// breedInput = $('#breedInput').val().trim();
 
-	var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSearch","search":{"calcFoundRows":"Yes","resultStart":0,"resultLimit":5,
+	var thing = {
+		"apikey":"2mV1s2Z2",
+		"objectType":"animals",
+		"objectAction":"publicSearch",
+		"search":
+			{
+				"calcFoundRows":"Yes",
+				"resultStart":0,
+				"resultLimit":5,
+				// THIS IS WHAT INFORMATION WILL SHOW IN THE DATA
+				"fields":
+					[	"animalName", 
+						"animalSpecies", 
+						"animalPictures",
+						"animalLocationPublic",
+						"animalSizeCurrent",
+						"animalLocationCitystate",
+						"animalStatus",
+						"animalLocationZipcode",
+						"animalBreed",
+						"animalSex",
+						"animalHousetrained",
+						"animalGeneralAge",
+						"animalDescription",
+						"animalNotes",
+						"animalObedienceTraining",
+						"animalOKWithAdults", 
+						"animalAdoptionPending", 
+						"animalPrimaryBreed", 
+						"animalSizeCurrent", 
+						"animalSummary",  
+						"ownerAddress",
+						"locationAddress", 
+						"locationAnimals", 
+						"contactCompany", 
+						"locationPhone", 
+						"locationName", 
+						"animalColor" ],
 
-	// THIS IS WHAT INFORMATION WILL SHOW IN THE DATA
-	"fields":["animalName", "animalSpecies", "animalPictures","animalLocationPublic","animalSizeCurrent","animalLocationCitystate","animalStatus","animalLocationZipcode","animalBreed","animalSex","animalHousetrained","animalGeneralAge","animalDescription","animalNotes","animalObedienceTraining","animalOKWithAdults", "animalAdoptionPending", "animalPrimaryBreed", "animalSizeCurrent", "animalSummary",  "ownerAddress","locationAddress", "locationAnimals", "contactCompany", "locationPhone", "locationName", "animalColor" ],
-
-	// THESE ARE THE SEARCH PARAMETERS TO SPECIFICALLY FIND WHAT ANIMAL
-	"filters":[
-	{"fieldName":"animalSpecies","operation":"equals","criteria":"dog"},
+				// THESE ARE THE SEARCH PARAMETERS TO SPECIFICALLY FIND WHAT ANIMAL
+				"filters":
+					[
+						{"fieldName":"animalSpecies",
+						"operation":"equals",
+						"criteria":"dog"},
 	// {"fieldName":"animalBreed","operation":"equals","criteria": breedInput},
-	{"fieldName":"animalLocationDistance","operation":"radius","criteria":"90"},
-	{"fieldName":"animalLocation","operation":"equals","criteria":'07024'},
-	{"fieldName":"animalStatus","operation":"equals","criteria":"Available"},
-	{"fieldName": "locationAddress", "operation": "notblank", "criteria": "true"},
-	{"fieldName": "locationPhone", "operation": "notblank", "criteria": "true"},
-	{"fieldName": "animalHousetrained", "operation": "notblank", "criteria": "true"}
+						{"fieldName":"animalLocationDistance",
+						"operation":"radius",
+						"criteria":"90"},
 
-	]//END filters array
-	}//END inner object 
+						{"fieldName":"animalLocation",
+						"operation":"equals",
+						"criteria":'07024'},
+
+						{"fieldName":"animalStatus",
+						"operation":"equals",
+						"criteria":"Available"},
+
+						{"fieldName": "locationAddress", 
+						"operation": "notblank", 
+						"criteria": "true"},
+
+						{"fieldName": "locationPhone", 
+						"operation": "notblank", 
+						"criteria": "true"},
+
+						{"fieldName": "animalHousetrained", 
+						"operation": "notblank", 
+						"criteria": "true"}
+					]//END filters array
+			}//END 'search' object 
 	}; //END 'thing' object
 	var encoded = JSON.stringify(thing);
 
@@ -114,7 +167,7 @@ function zipCodeQuery(locationFromArray){
 function displayLatitudeLongitude(){
 	rescueGroupsQuery();
 	console.log(latAndLngArray);
-	// console.log(longitudeArray);
+
 }
 
 displayLatitudeLongitude();
