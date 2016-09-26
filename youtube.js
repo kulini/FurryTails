@@ -37,7 +37,7 @@ function parseYoutube(data){
 	var itemsIndex = Math.floor(Math.random()*5);
 	var firstVidId = data.items[itemsIndex].id.videoId;
 
-	console.log(firstVidId);
+	// console.log(firstVidId);
 
 	var iframeURL = 'https://youtube.com/embed/' + firstVidId;
 	console.log(iframeURL);
@@ -77,7 +77,9 @@ function zipCodeQuery(){
 
 
 function rescueGroupsQuery(){
+	//User input for zipcode
 	zipInput = $('#zipInput').val().trim();
+	breedInput = $('#breedInput').val().trim();
 
 	var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSearch","search":{"calcFoundRows":"Yes","resultStart":0,"resultLimit":10,
 
@@ -87,14 +89,17 @@ function rescueGroupsQuery(){
 	// THESE ARE THE SEARCH PARAMETERS TO SPECIFICALLY FIND WHAT ANIMAL
 	"filters":[
 	{"fieldName":"animalSpecies","operation":"equals","criteria":"dog"},
-	{"fieldName":"animalLocationDistance","operation":"radius","criteria":"50"},
+	// {"fieldName":"animalBreed","operation":"equals","criteria": breedInput},
+	{"fieldName":"animalLocationDistance","operation":"radius","criteria":"90"},
 	{"fieldName":"animalLocation","operation":"equals","criteria":zipInput},
 	{"fieldName":"animalStatus","operation":"equals","criteria":"Available"},
 	{"fieldName": "locationAddress", "operation": "notblank", "criteria": "true"},
 	{"fieldName": "locationPhone", "operation": "notblank", "criteria": "true"},
 	{"fieldName": "animalHousetrained", "operation": "notblank", "criteria": "true"}
 
-	]}};
+	]//END filters array
+	}//END inner object 
+	}; //END 'thing' object
 	var encoded = $.toJSON(thing)
 
 	// console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
@@ -106,7 +111,7 @@ function rescueGroupsQuery(){
 	        if (data.foundRows) {
 	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + data.foundRows;
 	        }
-	        
+	        console.log(data);
 	        // USE LO DASH " _. " TO TRANSFORM AN OBJECT TO AN ARRAY
 	        var animalName = _.toArray(data.data);
 	 		console.log(animalName);
