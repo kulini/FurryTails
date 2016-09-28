@@ -1,12 +1,186 @@
 <!DOCTYPE html>
-<html>
-  <head>
-  	<meta charset="utf-8">
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="js/map.js"></script>
-  </head>
-  <body>
-    <div id="map-canvas"/>
-  </body>
+	<style>
+		#map-canvas{
+			width: 70%
+
+		}
+	</style>
+</head>
+<body>
+
+<!-- <div id="adoptedPetsCount"> -->
+<div id="map-canvas"/>
+	
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.1/lodash.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="js/map.js"></script>
+
+<script>
+//array of city & state pulled from rescuegroups API
+var locationArray 	=  new Array();
+//array, created by using geocod.io, to convert city & state into lat & long coordinates
+var latAndLngArray =  new Array();
+
+function rescueGroupsQuery(){
+	//User input for zipcode
+	// zipInput = $('#zipInput').val().trim();
+	// breedInput = $('#breedInput').val().trim();
+
+	var thing = {
+		"apikey":"2mV1s2Z2",
+		"objectType":"animals",
+		"objectAction":"publicSearch",
+		"search":
+			{
+				"calcFoundRows":"Yes",
+				"resultStart":0,
+				"resultLimit":5,
+				//Properties of each pet that the query returns
+				"fields":
+					[	"animalName", 
+						"animalSpecies", 
+						"animalPictures",
+						"animalLocationPublic",
+						"animalSizeCurrent",
+						"animalLocationCitystate",
+						"animalStatus",
+						"animalLocationZipcode",
+						"animalBreed",
+						"animalSex",
+						"animalHousetrained",
+						"animalGeneralAge",
+						"animalDescription",
+						"animalNotes",
+						"animalObedienceTraining",
+						"animalOKWithAdults", 
+						"animalAdoptionPending", 
+						"animalPrimaryBreed", 
+						"animalSizeCurrent", 
+						"animalSummary",  
+						"ownerAddress",
+						"locationAddress", 
+						"locationAnimals", 
+						"contactCompany", 
+						"locationPhone", 
+						"locationName", 
+						"animalColor" ],
+
+				// SEARCH PARAMETERS for query
+				"filters":
+					[
+						{"fieldName":"animalSpecies",
+						"operation":"equals",
+						"criteria":"dog"},
+	// {"fieldName":"animalBreed","operation":"equals","criteria": breedInput},
+						{"fieldName":"animalLocationDistance",
+						"operation":"radius",
+						"criteria":"90"},
+
+						{"fieldName":"animalLocation",
+						"operation":"equals",
+						"criteria":'07024'},
+
+						{"fieldName":"animalStatus",
+						"operation":"equals",
+						"criteria":"Available"},
+
+						{"fieldName": "locationAddress", 
+						"operation": "notblank", 
+						"criteria": "true"},
+
+						{"fieldName": "locationPhone", 
+						"operation": "notblank", 
+						"criteria": "true"},
+
+						{"fieldName": "animalHousetrained", 
+						"operation": "notblank", 
+						"criteria": "true"}
+					]//END filters array
+			}//END 'search' object 
+	}; //END 'thing' object
+	var encoded = JSON.stringify(thing);
+
+	// console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
+	 
+	$.ajax({
+	  url: "https://api.rescuegroups.org/http/json/?data=" + encoded, 
+	  dataType: "jsonp",
+	  success: function(data) {
+	        if (data.foundRows) {
+	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + data.foundRows;
+	        }
+	        // console.log(data);
+	        // USE LO DASH " _. " TO TRANSFORM AN OBJECT TO AN ARRAY
+	        var animalName = _.toArray(data.data);
+	 		// console.log(animalName);
+	 		var location; 
+			
+			for(var i=0; i<animalName.length; i++) {
+				//fetches the City and State of each pet from the API call
+				location = animalName[i].animalLocationCitystate;
+				location = location.toString();
+				//Pushes the city and state to an array (locationArray)
+				//alternative to push() method, which didn't work
+				locationArray[i] = location;
+				//obtain latitude and longitude for each pet City & State, using zipCodeQuery function	
+				zipCodeQuery(location);
+				console.log('lat and long'+latAndLngArray);	
+			}
+			console.log(locationArray);
+
+	  },
+	  error: function(xhr, status, error) {
+	    console.log('error');
+	  }
+	}); 
+}
+
+//Called inside rescueGroupsQuery();
+function zipCodeQuery(locationFromArray){
+
+	var animalAddress = locationFromArray;
+	//Geocodio API
+	var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
+	var baseURL = 'https://api.geocod.io/v1/geocode?api_key=';
+	var queryURL = baseURL+ APIkey + '&q=' + animalAddress;
+
+	var latitude = '';
+	var longitude = '';
+
+	$.ajax({
+		url: queryURL,
+		method: 'GET'
+	}).done(function(response){	
+		latitude = response.results[0].location.lat;
+		longitude = response.results[0].location.lng;
+
+		//creates an object with latitude and longitude
+		var latAndLng = {
+			'lat': latitude,
+			'lng': longitude
+		}
+
+		//Appends the lat & long object to the array declared globally
+		latAndLngArray.push(latAndLng);
+		console.log
+	});
+}
+
+function displayLatitudeLongitude(){
+	rescueGroupsQuery();
+	//encountering a bug here. does not show a proper array that we can work with
+}
+
+
+
+displayLatitudeLongitude();
+</script>	
+</body>
 </html>
