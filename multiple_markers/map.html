@@ -17,6 +17,9 @@
 <div id="map-canvas"/>
 	
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script src="http://s3.amazonaws.com/filestore.rescuegroups.org/scripts/noncvs/jquery-json.js" type="text/javascript"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.1/lodash.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -113,9 +116,7 @@ function rescueGroupsQuery(){
 	  url: "https://api.rescuegroups.org/http/json/?data=" + encoded, 
 	  dataType: "jsonp",
 	  success: function(data) {
-	        if (data.foundRows) {
-	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + data.foundRows;
-	        }
+
 	        // console.log(data);
 	        // USE LO DASH " _. " TO TRANSFORM AN OBJECT TO AN ARRAY
 	        var animalName = _.toArray(data.data);
@@ -126,12 +127,13 @@ function rescueGroupsQuery(){
 				//fetches the City and State of each pet from the API call
 				location = animalName[i].animalLocationCitystate;
 				location = location.toString();
+				console.log(animalName[i].animalPictures[0].urlSecureFullsize)
 				//Pushes the city and state to an array (locationArray)
 				//alternative to push() method, which didn't work
 				locationArray[i] = location;
 				//obtain latitude and longitude for each pet City & State, using zipCodeQuery function	
 				zipCodeQuery(location);
-				console.log('lat and long'+latAndLngArray);	
+				console.log('lat and long'+ latAndLngArray);	
 			}
 			console.log(locationArray);
 
