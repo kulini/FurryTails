@@ -123,3 +123,7 @@ function createMarker(latlng, name, address1, address2){
       infoWindow.open(map, marker);
    });
 }
+
+
+
+
