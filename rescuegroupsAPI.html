@@ -13,17 +13,35 @@
 
 We've adopted <span id="adoptedPetsCount">a lot of</span> pets!
 
+ <div>
+ <br> <!-- div.input-group -->
+          <input id='breedInput' placeholder="Enter animal breed here" class='form-control' type="text">
+          <input type="text" id="zip" class="form-control" placeholder="Enter your ZIP code here">
+          <!-- <span class="input-group-btn"> -->
+          <input id="submitBtn" type="submit" class="btn-info btn input-group"></input> 
+          <!-- </span> -->
+        </div>
+
 
 
 <!-- https://userguide.rescuegroups.org/display/APIDG/Object+definitions -->
 
 <script>
-var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSearch","search":{"calcFoundRows":"Yes","resultStart":0,"resultLimit":10,
+var animal = "dog";
+var miles = "100";
+var zipCode = "07024"
+var animalBreed = "";
+
+
+var thing = {
+	"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSearch","search":{"calcFoundRows":"Yes","resultStart":0,"resultLimit":10,
 
 // THIS IS WHAT INFORMATION WILL SHOW IN THE DATA
-"fields":["animalName", "animalSpecies", "animalPictures","animalLocationPublic","animalSizeCurrent","animalLocationCitystate","animalStatus","animalLocationZipcode","animalBreed","animalSex","animalHousetrained","animalGeneralAge","animalDescription","animalNotes","animalObedienceTraining","animalOKWithAdults", "animalAdoptionPending", "animalPrimaryBreed", "animalSizeCurrent", "animalSummary",  "ownerAddress","locationAddress", "locationAnimals", "contactCompany", "locationPhone", "locationName", "animalColor", "animalMainBreed" ],
+	"fields":
+		["animalName", "animalSpecies", "animalPictures","animalLocationPublic","animalSizeCurrent","animalLocationCitystate","animalStatus","animalLocationZipcode","animalBreed","animalSex","animalHousetrained","animalGeneralAge","animalDescription","animalNotes","animalObedienceTraining","animalOKWithAdults", "animalAdoptionPending", "animalPrimaryBreed", "animalSizeCurrent", "animalSummary", "ownerAddress","locationAddress", "locationAnimals", "contactCompany", "locationPhone", "locationName", "animalColor", "animalMainBreed" ],
 
 // THESE ARE THE SEARCH PARAMETERS TO SPECIFICALLY FIND WHAT ANIMAL
+<<<<<<< HEAD
 "filters":[
 {"fieldName":"animalSpecies","operation":"equals","criteria":"dog"},
 {"fieldName":"animalLocationDistance","operation":"radius","criteria":"90"},
@@ -36,6 +54,32 @@ var thing = {"apikey":"2mV1s2Z2","objectType":"animals","objectAction":"publicSe
 ]}};
 
 var encoded = $.toJSON(thing)
+=======
+
+	"filters":
+		[
+			{"fieldName":"animalSpecies","operation":"contains","criteria":animal},
+			{"fieldName":"animalLocationDistance","operation":"radius","criteria":miles},
+			{"fieldName":"animalLocation","operation":"equals","criteria":zipCode},
+			{"fieldName":"animalStatus","operation":"equals","criteria":"Available"},
+			{"fieldName":"locationAddress", "operation": "notblank", "criteria": "true"},
+			{"fieldName":"animalBreed", "operation": "contains", "criteria":animalBreed}
+		]
+	}
+};
+
+console.log(thing.search.filters[0]);
+
+
+    $("#submitBtn").on("click", function(){
+    var breedInput = $('#breedInput').val().trim();
+
+  });
+
+
+
+var encoded = $.toJSON(thing);
+>>>>>>> 13409436a8a31d98b1a271c1bcbcf61a54f6cebd
 
 // console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
 
@@ -54,14 +98,9 @@ $.ajax({
 		for(var i=0; i<animalName.length; i++) {
 			console.log(animalName[i].animalName);
 			console.log(animalName[i].animalBreed);
-			console.log(animalName[i].animalMainBreed);
 			console.log(animalName[i].animalSex);
 			console.log(animalName[i].animalColor);
 			console.log(animalName[i].animalPictures[0].urlSecureFullsize)
-
-			console.log(animalName[i].animalObedienceTraining)
-			console.log(animalName[i].animalHousetrained);
-			console.log(animalName[i].animalGeneralAge);
 			console.log(animalName[i].locationName);
 			console.log(animalName[i].locationAddress);
 			console.log(animalName[i].animalLocationCitystate);
@@ -75,7 +114,11 @@ $.ajax({
     console.log('error');
   }
 }); 
+
+
 </script>
+
+
 
 	
 </body>
