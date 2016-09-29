@@ -13,6 +13,15 @@
 </head>
 <body>
 
+	<form id='animal-form'>
+			<label for='animal-input'>Add Another Button</label>
+			<input type='text' id='animal-input'><br>
+			<input id='addAnimal' type='submit' value='Submit'>
+
+	</form>
+
+
+
 <!-- <div id="adoptedPetsCount"> -->
 <div id="map-canvas"/>
 	
@@ -26,7 +35,22 @@
 <script>
 jQuery(document).ready(function($) {
 
+$('#addAnimal').on('click', function(){
+
 displayLatitudeLongitude();
+
+
+	return false;
+});
+
+
+
+
+
+
+
+
+var reusableName = "";
 
 //array of city & state pulled from rescuegroups API
 var nameArray 	=  new Array();
@@ -170,13 +194,16 @@ function rescueGroupsQuery(){
 			console.log(locationArray);
 			console.log(breedArray);
 
+			reusableName = nameArray[0];
+			console.log(reusableName);
+
 	  },
 	  error: function(xhr, status, error) {
 	    console.log('error');
 	  }
 	}); 
 }
-			console.log(nameArray);
+			console.log(reusableName);
 
 
 //Called inside rescueGroupsQuery();
@@ -351,7 +378,7 @@ function createMarker(latlng, name, address1, address2){
    });
 
 }})
-
+console.log(reuseableName);
 
 
 
