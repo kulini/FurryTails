@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- Latest compiled and minified CSS & JS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="well"></div>
+	</div>
+
+	<div class="row">
+		<div class="panel-primary panel">
+			<div class="panel-heading">
+				<div class="text-center panel-title">Chat</div>
+			</div>
+			<div class="panel-body">
+				<input id="chatInput" class="form-control" type="text">
+				<input type="submit" class="btn-primary btn" id="submitBtn">
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  //within reach github = google maps
+var config = {
+apiKey: "AIzaSyCrZe44spLnlTFFQngHRRKyIdWO6SDRQ3U",
+authDomain: "furrytails-ce05b.firebaseapp.com",
+databaseURL: "https://furrytails-ce05b.firebaseio.com",
+storageBucket: "",
+messagingSenderId: "1048666912000"
+};
+firebase.initializeApp(config);
+
+var databse = firebase.database();
+var comment = '';
+
+$('#submitBtn').on('click', function(){
+	comment = $('#chatInput').val();
+
+	databse.ref().push({
+		comment: comment,
+	});
+
+	$('#chatInput').val('');
+	
+	return false;
+})
+
+databse.ref().on('child_added', function(snapshot, prevChildKey){
+	// $('.well').empty();
+	$('.well').append(snapshot.val().comment);
+})
+
+
+
+
+
+
+</script>	
+</body>
+</html>
