@@ -24,22 +24,25 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <!-- <script type="text/javascript" src="js/map.js"></script>-->
 <script>
-jQuery(document).ready(function($) {
+
 
 displayLatitudeLongitude();
 
 //array of city & state pulled from rescuegroups API
-var nameArray 	=  new Array();
+var nameArray =  new Array();
 var pictureArray = new Array();
 var locationArray = new Array();
 var breedArray = new Array();
 
-			console.log(nameArray[0]);
-			console.log(pictureArray);
-			console.log(locationArray);
-			console.log(breedArray);
+			console.log("NameArray[0] - 37", nameArray[0]);
+			console.log("Picture array", pictureArray);
+			console.log("location array", locationArray);
+			console.log("breed array", breedArray);
 //array, created by using geocod.io, to convert city & state into lat & long coordinates
 var latAndLngArray =  new Array();
+
+var animalMarkers = [] //<----------------- Add this global variable
+
 
 function rescueGroupsQuery(){
 	//User input for zipcode
@@ -123,6 +126,8 @@ function rescueGroupsQuery(){
 	// console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
 	 
 	$.ajax({
+	async: false,
+	type: "GET",
 	  url: "https://api.rescuegroups.org/http/json/?data=" + encoded, 
 	  dataType: "jsonp",
 	  success: function(data) {
@@ -164,8 +169,8 @@ function rescueGroupsQuery(){
 				zipCodeQuery(location);
 				// console.log('lat and long'+ latAndLngArray);	
 			}
-
 			console.log(nameArray[0]);
+			console.log(nameArray);
 			console.log(pictureArray);
 			console.log(locationArray);
 			console.log(breedArray);
@@ -206,7 +211,6 @@ function zipCodeQuery(locationFromArray){
 
 		//Appends the lat & long object to the array declared globally
 		latAndLngArray.push(latAndLng);
-		console.log
 	});
 }
 
@@ -350,7 +354,7 @@ function createMarker(latlng, name, address1, address2){
       infoWindow.open(map, marker);
    });
 
-}})
+}
 
 
 

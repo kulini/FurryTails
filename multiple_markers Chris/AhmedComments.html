@@ -13,15 +13,6 @@
 </head>
 <body>
 
-	<form id='animal-form'>
-			<label for='animal-input'>Add Another Button</label>
-			<input type='text' id='animal-input'><br>
-			<input id='addAnimal' type='submit' value='Submit'>
-
-	</form>
-
-
-
 <!-- <div id="adoptedPetsCount"> -->
 <div id="map-canvas"/>
 	
@@ -33,37 +24,24 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <!-- <script type="text/javascript" src="js/map.js"></script>-->
 <script>
-jQuery(document).ready(function($) {
 
-$('#addAnimal').on('click', function(){
 
 displayLatitudeLongitude();
 
-
-	return false;
-});
-
-
-
-
-
-
-
-
-var reusableName = "";
-
 //array of city & state pulled from rescuegroups API
-var nameArray 	=  new Array();
+var nameArray =  new Array();
 var pictureArray = new Array();
 var locationArray = new Array();
 var breedArray = new Array();
 
-			console.log(nameArray[0]);
-			console.log(pictureArray);
-			console.log(locationArray);
-			console.log(breedArray);
+			console.log("NameArray[0] - 37", nameArray[0]);
+			console.log("Picture array", pictureArray);
+			console.log("location array", locationArray);
+			console.log("breed array", breedArray);
 //array, created by using geocod.io, to convert city & state into lat & long coordinates
 var latAndLngArray =  new Array();
+
+var animalMarkers = [] //<----------------- Add this global variable
 
 function rescueGroupsQuery(){
 	//User input for zipcode
@@ -147,6 +125,8 @@ function rescueGroupsQuery(){
 	// console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
 	 
 	$.ajax({
+	async: false,
+	type: "GET",
 	  url: "https://api.rescuegroups.org/http/json/?data=" + encoded, 
 	  dataType: "jsonp",
 	  success: function(data) {
@@ -160,8 +140,13 @@ function rescueGroupsQuery(){
 	 		var picture;
 	 		var breed;
 
+	 		var animalObject = {} // <------------ Creating a blank object to hold each animal's data 
+
 			
 			for(var i=0; i<animalData.length; i++) {
+
+				animalObject = {}; 
+
 				//nameArray
 				name = animalData[i].animalName;
 				name = name.toString();
@@ -186,16 +171,25 @@ function rescueGroupsQuery(){
 				locationArray[i] = location;
 				//obtain latitude and longitude for each pet City & State, using zipCodeQuery function	
 				zipCodeQuery(location);
-				// console.log('lat and long'+ latAndLngArray);	
-			}
+				// console.log('lat and long'+ latAndLngArray);
 
+				// <----------- CREATE OBJECTS WITH THE ABOVE DATA THEN PUSH OBJECTS TO MARKERS ARRAY HERE 
+				animalObject = {
+					breed: breed,
+					name: name,
+					location: location,
+					lat: lat, // YOU WILL NEED TO FIX THIS
+					lng: lng // YOU WILL NEED TO FIX THIS
+				}
+
+				markersData.push(animalObject); // < -------- PUSH THIS OBJECT INTO ARRAY
+
+			}
 			console.log(nameArray[0]);
+			console.log(nameArray);
 			console.log(pictureArray);
 			console.log(locationArray);
 			console.log(breedArray);
-
-			reusableName = nameArray[0];
-			console.log(reusableName);
 
 	  },
 	  error: function(xhr, status, error) {
@@ -203,7 +197,7 @@ function rescueGroupsQuery(){
 	  }
 	}); 
 }
-			console.log(reusableName);
+			console.log(nameArray);
 
 
 //Called inside rescueGroupsQuery();
@@ -233,7 +227,6 @@ function zipCodeQuery(locationFromArray){
 
 		//Appends the lat & long object to the array declared globally
 		latAndLngArray.push(latAndLng);
-		console.log
 	});
 }
 
@@ -377,8 +370,8 @@ function createMarker(latlng, name, address1, address2){
       infoWindow.open(map, marker);
    });
 
-}})
-console.log(reuseableName);
+}
+
 
 
 
