@@ -227,7 +227,7 @@ function rescueGroupsQuery(){
 
 ////GOOGLE MAPS CODE
 //initialize event listener. not sure if it works.
-// google.maps.event.addDomListener(window, 'load', initMap);
+// google.maps.event.addDomList ener(window, 'load', initMap);
 
 
 //This function is called by zipCodeQuery(), which supplies the parameters here.
@@ -236,7 +236,8 @@ function initMap(latitude, longitude) {
 	var myLatLng = {lat: latitude, lng: longitude};
 	var googleMapOptions = {
 	zoom: 8,
-	center: myLatLng
+	center: myLatLng,
+	draggable: true
 	};
 	
 	map = new google.maps.Map(document.getElementById("map"), googleMapOptions);
@@ -282,13 +283,17 @@ function addMarker(location) {
         // draggable: true
     });
 
-	google.maps.event.addListener(marker, 'click', function() {
-      var iwContent = 'hello, handsome';
-      infoWindow.setContent(iwContent);
-      infoWindow.open(map, this);
+    marker.addListener('click', function() {
       // infowindow.open(map, marker);
-      // alert('hiiii');
+      alert('hiiii');
     });
+	// google.maps.event.addListener(marker, 'click', function() {
+ //      // var iwContent = 'hello, handsome';
+ //      // infoWindow.setContent(iwContent);
+ //      // infoWindow.open(map, this);
+ //      // infowindow.open(map, marker);
+ //      alert('hiiii');
+ //    });
 
 	// return marker;
 }
