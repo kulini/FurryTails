@@ -143,7 +143,9 @@ function zipCodeQuery(locationFromArray){
          'lng': longitude
       }
 
-      displayMarkers(latitude, longitude);
+      //Appends the lat & long object to the array declared globally
+      latAndLngArray.push(latAndLng);
+      console.log
    });
 }
 
@@ -165,6 +167,33 @@ displayLatitudeLongitude();
 var map;
 var infoWindow;
 
+// markersData variable stores the information necessary to each marker
+var markersData = [
+   {
+      lat: 40.905926,
+      lng: -72.415663,
+      name: "Pet #1",
+      address1:"Somewhere,",
+      address2: "NY",
+
+   },
+   {
+      lat: 41.376242,
+      lng: -73.471416,
+      name: "Pet #2",
+      address1:"Somewhere",
+      address2: "CT",
+
+   },
+   {
+      lat: 41.446544,
+      lng: -74.478741,
+      name: "Pet #3",
+      address1:"Somewhere",
+      address2: "NY",
+
+   } 
+];
 
 
 function initialize() {
@@ -201,22 +230,25 @@ var pawIcon = {
 
 // This function will iterate over markersData array
 // creating markers with createMarker function
-function displayMarkers(latitude, longitude){
+function displayMarkers(){
 
    // this variable sets the map bounds according to markers position
    var bounds = new google.maps.LatLngBounds();
    
    // for loop traverses markersData array calling createMarker function for each marker 
+   for (var i = 0; i < markersData.length; i++){
 
+      var latlng = new google.maps.LatLng(markersData[i].lat, markersData[i].lng);
+      var name = markersData[i].name;
+      var address1 = markersData[i].address1;
+      var address2 = markersData[i].address2;
+      var postalCode = markersData[i].postalCode;
 
-      var latlng = new google.maps.LatLng(latitude, longitude);
-      
-
-      createMarker(latlng);
+      createMarker(latlng, name, address1, address2);
 
       // marker position is added to bounds variable
       bounds.extend(latlng);  
-
+   }
 
    // Finally the bounds variable is used to set the map bounds
    // with fitBounds() function
@@ -224,11 +256,11 @@ function displayMarkers(latitude, longitude){
 }
 
 // This function creates each marker and it sets their Info Window content
-function createMarker(latlng){
+function createMarker(latlng, name, address1, address2){
    var marker = new google.maps.Marker({
       map: map,
       position: latlng,
-      title: 'pet',
+      title: name,
       icon: pawIcon
    });
 
@@ -239,9 +271,9 @@ function createMarker(latlng){
       
       // Creating the content to be inserted in the infowindow
       var iwContent = '<div id="iw_container">' +
-            '<div class="iw_title">' + 'hey' + '</div>' +
-         '<div class="iw_content">' + 'addressplaceholder' + '<br />' +
-         'anotherplaceholder' + '<br />' +
+            '<div class="iw_title">' + name + '</div>' +
+         '<div class="iw_content">' + address1 + '<br />' +
+         address2 + '<br />' +
          '</div></div>';
       
       // including content to the Info Window.
@@ -251,7 +283,3 @@ function createMarker(latlng){
       infoWindow.open(map, marker);
    });
 }
-
-
-
-
