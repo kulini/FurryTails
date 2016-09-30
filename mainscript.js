@@ -121,8 +121,8 @@ function rescueGroupsQuery(){
 			{
 				"calcFoundRows":"Yes",
 				"resultStart":0,
-				"resultLimit":50,
-				//Properties of each pet that the query returns
+				"resultLimit":10,
+				//Info that is available about a pet
 				"fields":
 					[	"animalName", 
 						"animalSpecies", 
@@ -175,13 +175,13 @@ function rescueGroupsQuery(){
 						"operation":"equals",
 						"criteria":"Available"},
 
-						{"fieldName": "locationAddress", 
-						"operation": "notblank", 
-						"criteria": "true"},
+						// {"fieldName": "locationAddress", 
+						// "operation": "notblank", 
+						// "criteria": "true"},
 
-						{"fieldName": "locationPhone", 
-						"operation": "notblank", 
-						"criteria": "true"},
+						// {"fieldName": "locationPhone", 
+						// "operation": "notblank", 
+						// "criteria": "true"},
 
 						// {"fieldName": "animalHousetrained", 
 						// "operation": "notblank", 
@@ -207,22 +207,30 @@ function rescueGroupsQuery(){
 	 		var location; 
 			
 			for(var i=0; i<animalName.length; i++) {
-				//fetches the City and State of each pet from the API call
+				//fetch the City and State of each pet from the API call
 				location = animalName[i].animalLocationCitystate;
+				//convert location data to string
 				location = location.toString();
 
-
+				//fetch info about each pet
 				var petphoto = animalName[i].animalPictures[0].urlInsecureThumbnail;
 				var petname = animalName[i].animalName;
 				var petphone = animalName[i].locationPhone;
 				var petspecies = animalName[i].animalSpecies;
-
+				var petlocation = animalName[i].animalLocationCitystate;
+				var petnotes = animalName[i].animalNotes;
+				var petbreed = animalName[i].animalPrimaryBreed;
+				//
 				var petinfo = {
 					location: location,
 					name: petname,
 					petphoto: petphoto,
-					petphone: petphone
+					petphone: petphone,
+					petlocation: petlocation,
+					petbreed: petbreed
 				};
+
+				if (petnotes) petinfo[petnotes] = petnotes;
 
 				petZipCodeQuery(petinfo);	
 			}
@@ -276,7 +284,13 @@ function addMarker(location, petinfo) {
 	var contentString = '<img width="100px" src = "' + 
 		petinfo.petphoto+ '">' + 
 		'<p>'+ petinfo.name + '</p>' + 
-		'<p>' + petinfo.petphone + '</p>';
+		'<p>' + petinfo.petphone + '</p>' +
+		'<p>' + petinfo.petlocation + '</p>' +
+		'<p>' + petinfo.petbreed + '</p>'
+		;
+
+	if (petinfo.petnotes) contentString = contentString + '<p>' + petinfo.petnotes + '</p>';
+
 	var infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
