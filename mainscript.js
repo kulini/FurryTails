@@ -249,10 +249,9 @@ function rescueGroupsQuery(){
 } //END rescueGroupsQuery()
 
 
-////GOOGLE MAPS CODE
-//initialize event listener. not sure if it works.
-// google.maps.event.addDomList ener(window, 'load', initMap);
-
+/////////////////////////
+////GOOGLE MAPS CODE/////
+/////////////////////////
 
 //This function is called by zipCodeQuery(), which supplies the parameters here.
 //Center the map with user's zipcode. 
@@ -296,7 +295,7 @@ function addMarker(location, petinfo) {
 	// console.log('location: ' + location.lat + ' ' +location.lng);	
 
 	//content of popup infowindow for each marker on the map
-	var contentString = '<img width="100px" src = "' + 
+	var contentString = '<img width="150px" src = "' + 
 		petinfo.petphoto+ '">' + 
 		'<p>'+ petinfo.name + '</p>' + 
 		'<p>' + petinfo.petphone + '</p>' +
