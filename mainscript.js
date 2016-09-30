@@ -190,9 +190,9 @@ function rescueGroupsQuery(){
 						"operation": "notblank", 
 						"criteria": "true"},
 
-						{"fieldName": "animalHousetrained", 
-						"operation": "notblank", 
-						"criteria": "true"}
+						// {"fieldName": "animalHousetrained", 
+						// "operation": "notblank", 
+						// "criteria": "true"}
 					]//END filters array
 			}//END 'search' object 
 	}; //END 'thing' object
@@ -220,13 +220,14 @@ function rescueGroupsQuery(){
 
 
 				var petphoto = animalName[i].animalPictures[0].urlInsecureThumbnail;
-				console.log(petphoto);
 				var petname = animalName[i].animalName;
+				var petphone = animalName[i].locationPhone;
 				
 				var petinfo = {
 					location: location,
 					name: petname,
-					petphoto: petphoto
+					petphoto: petphoto,
+					petphone: petphone
 				};
 
 				petZipCodeQuery(petinfo);	
@@ -262,16 +263,6 @@ function initMap(latitude, longitude) {
         map: map
 	});
 
-	marker.addListener('click', function() {
-      // infowindow.open(map, marker);
-      alert('hiiii');
-    });
-
-	marker.addListener('mouseover', function() {
-      // infowindow.open(map, marker);
-      alert('hiiii');
-    });
-
 }
 
 
@@ -288,7 +279,7 @@ function addMarker(location, petinfo) {
 	var myLatLng = {lat: location.lat, lng: location.lng};
 	console.log('location: ' + location.lat + ' ' +location.lng);	
 	// alert('hi'); this works
-	var contentString = '<img width="100px" src = "' + petinfo.petphoto+ '">' + '<p>'+ petinfo.name + '</p>';
+	var contentString = '<img width="100px" src = "' + petinfo.petphoto+ '">' + '<p>'+ petinfo.name + '</p>' + '<p>' + petinfo.petphone + '</p>';
 	var infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
