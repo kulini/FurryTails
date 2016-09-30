@@ -285,8 +285,7 @@ function addMarker(location, petinfo) {
         position: myLatLng,
         map: map,
         icon: test,
-        title: "blah"
-        infowindow: myinfowindow,
+        title: "pet info",
         animation: google.maps.Animation.DROP,
         draggable: true
     });
