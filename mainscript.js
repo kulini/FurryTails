@@ -217,7 +217,6 @@ function rescueGroupsQuery(){
 				var petphoto = animalName[i].animalPictures[0].urlInsecureThumbnail;
 				var petname = animalName[i].animalName;
 				var petphone = animalName[i].locationPhone;
-				var petspecies = animalName[i].animalSpecies;
 				var petlocation = animalName[i].animalLocationCitystate;
 				var petnotes = animalName[i].animalNotes;
 				var petbreed = animalName[i].animalPrimaryBreed;
@@ -236,7 +235,7 @@ function rescueGroupsQuery(){
 					age: age
 				};
 				//if there are notes on the pet, the info is appended to petinfo{} object
-				if (petnotes) petinfo[petnotes] = petnotes;
+				if (petnotes) petinfo['petnotes'] = petnotes;
 				//this function converts pet's location to lat & lang, and passes on petinfo{} obj to addMarker()
 				petZipCodeQuery(petinfo);	
 			}
@@ -249,9 +248,9 @@ function rescueGroupsQuery(){
 } //END rescueGroupsQuery()
 
 
-/////////////////////////
-////GOOGLE MAPS CODE/////
-/////////////////////////
+///////////////////////////////
+////GOOGLE MAPS CODE BELOW/////
+///////////////////////////////
 
 //This function is called by zipCodeQuery(), which supplies the parameters here.
 //Center the map with user's zipcode. 
