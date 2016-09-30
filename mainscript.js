@@ -222,6 +222,7 @@ function rescueGroupsQuery(){
 				var petnotes = animalName[i].animalNotes;
 				var petbreed = animalName[i].animalPrimaryBreed;
 				var petsex = animalName[i].animalSex;
+				var age = animalName[i].animalGeneralAge;
 				//
 				var petinfo = {
 					location: location,
@@ -230,7 +231,8 @@ function rescueGroupsQuery(){
 					petphone: petphone,
 					petlocation: petlocation,
 					petbreed: petbreed,
-					petsex: petsex
+					petsex: petsex,
+					age: age
 				};
 
 				if (petnotes) petinfo[petnotes] = petnotes;
@@ -292,7 +294,8 @@ function addMarker(location, petinfo) {
 		'<p>' + petinfo.petphone + '</p>' +
 		'<p>' + petinfo.petlocation + '</p>' +
 		'<p>' + petinfo.petbreed + '</p>' +
-		'<p>' + petinfo.petsex + '</p>'
+		'<p>' + petinfo.petsex + '</p>' + 
+		'<p>' + petinfo.age + '</p>'
 		;
 
 	if (petinfo.petnotes) contentString = contentString + '<p>' + petinfo.petnotes + '</p>';
@@ -304,8 +307,8 @@ function addMarker(location, petinfo) {
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
-        icon: test,
-        title: "pet info",
+        icon: pawIcon,
+        // title: "pet info",
         animation: google.maps.Animation.DROP,
         draggable: true
     });
