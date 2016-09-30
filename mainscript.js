@@ -9,8 +9,6 @@ $('#submitBtn').on('click', function(){
 	breedInput = $('#breedInput').val().trim();
 	zipInput = $('#zipInput').val().trim();
 
-	// console.log(breedInput);
-	// console.log(zipInput);
 	//make an API call to youtube for a video with the breedInput as query keyword
 	youtubeQuery();
 	//make an API call to geocod.io with to translate the user's zip code into latitude & longitude co-ordinates
@@ -58,7 +56,6 @@ function displayYoutube(data){
 }
 
 function userZipCodeQuery(){
-
 	var userZip = zipInput;
 	//Geocodio API
 	var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
@@ -74,13 +71,9 @@ function userZipCodeQuery(){
 	}).done(function(response){	
 		latitude = response.results[0].location.lat;
 		longitude = response.results[0].location.lng;
-		//testing
-		// console.log(response.results[0].location.lat);		
-		// console.log(response.results[0].location.lng);	
-
+		
 		//calls function that displays google map
 		initMap(latitude, longitude);
-		// testMarker();
 	});
 }
 
@@ -222,7 +215,8 @@ function rescueGroupsQuery(){
 				var petphoto = animalName[i].animalPictures[0].urlInsecureThumbnail;
 				var petname = animalName[i].animalName;
 				var petphone = animalName[i].locationPhone;
-				
+				var petspecies = animalName[i].animalSpecies;
+
 				var petinfo = {
 					location: location,
 					name: petname,
@@ -279,7 +273,10 @@ function addMarker(location, petinfo) {
 	var myLatLng = {lat: location.lat, lng: location.lng};
 	console.log('location: ' + location.lat + ' ' +location.lng);	
 	// alert('hi'); this works
-	var contentString = '<img width="100px" src = "' + petinfo.petphoto+ '">' + '<p>'+ petinfo.name + '</p>' + '<p>' + petinfo.petphone + '</p>';
+	var contentString = '<img width="100px" src = "' + 
+		petinfo.petphoto+ '">' + 
+		'<p>'+ petinfo.name + '</p>' + 
+		'<p>' + petinfo.petphone + '</p>';
 	var infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
@@ -297,14 +294,5 @@ function addMarker(location, petinfo) {
     marker.addListener('click', function() {
       infowindow.open(map, marker);
     });
-	// google.maps.event.addListener(marker, 'click', function() {
- //      // var iwContent = 'hello, handsome';
- //      // infoWindow.setContent(iwContent);
- //      // infoWindow.open(map, this);
- //      // infowindow.open(map, marker);
- //      alert('hiiii');
- //    });
-
-	// return marker;
 }
 
