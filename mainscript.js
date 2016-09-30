@@ -117,7 +117,7 @@ function petZipCodeQuery(petinfo){
 
 function rescueGroupsQuery(){
 	//User input for zipcode
-	// zipInput = $('#zipInput').val().trim();
+	zipInput = $('#zipInput').val().trim();
 	// breedInput = $('#breedInput').val().trim();
 
 	var thing = {
@@ -172,7 +172,7 @@ function rescueGroupsQuery(){
 
 						{"fieldName":"animalLocation",
 						"operation":"equals",
-						"criteria":'07024'},
+						"criteria": zipInput},
 
 						{"fieldName":"animalStatus",
 						"operation":"equals",
@@ -218,6 +218,7 @@ function rescueGroupsQuery(){
 				var petphoto = animalName[i].animalPictures[0].urlInsecureThumbnail;
 				console.log(petphoto);
 				var petname = animalName[i].animalName;
+				
 				var petinfo = {
 					location: location,
 					name: petname,
