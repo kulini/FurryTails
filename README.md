@@ -4,6 +4,9 @@
 <p align="center">
 <img width=“300px” src="https://cloud.githubusercontent.com/assets/8959351/18983514/481fc86e-86bb-11e6-93a7-25e5d43112eb.png" width="100%" height="auto"/>
 </p>
+<p align="center">
+<img width=“300px” src="https://cloud.githubusercontent.com/assets/8959351/18983636/1a053c60-86bc-11e6-931b-98d31491fa53.png" width="100%" height="auto"/>
+</p>
 
 
 
