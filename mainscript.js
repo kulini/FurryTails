@@ -114,7 +114,7 @@ function rescueGroupsQuery(){
 	zipInput = $('#zipInput').val().trim();
 	breedInput = $('#breedInput').val().trim();
 
-	var thing = {
+	var searchObj = {
 		"apikey":"2mV1s2Z2",
 		"objectType":"animals",
 		"objectAction":"publicSearch",
@@ -189,21 +189,21 @@ function rescueGroupsQuery(){
 						// "criteria": "true"}
 					]//END filters array
 			}//END 'search' object 
-	}; //END 'thing' object
-	var encoded = JSON.stringify(thing);
+	}; //END 'searchObj' object
+	var encoded = JSON.stringify(searchObj);
 
 	// console.log("https://api.rescuegroups.org/http/json/?data=" + encoded)
 	 
 	$.ajax({
 	  url: "https://api.rescuegroups.org/http/json/?data=" + encoded, 
 	  dataType: "jsonp",
-	  success: function(data) {
-	        if (data.foundRows) {
-	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + data.foundRows;
+	  success: function(response) {
+	        if (response.foundRows) {
+	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + response.foundRows;
 	        }
-	        // console.log(data);
+
 	        // USE LO DASH " _. " TO TRANSFORM AN OBJECT TO AN ARRAY
-	        var animalName = _.toArray(data.data);
+	        var animalName = _.toArray(response.data);
 	 		// console.log(animalName);
 	 		var location; 
 			
@@ -223,7 +223,8 @@ function rescueGroupsQuery(){
 				var petbreed = animalName[i].animalPrimaryBreed;
 				var petsex = animalName[i].animalSex;
 				var age = animalName[i].animalGeneralAge;
-				//
+				
+				//object containing pet info is passed onto petZipCodeQuery() below
 				var petinfo = {
 					location: location,
 					name: petname,
@@ -234,9 +235,9 @@ function rescueGroupsQuery(){
 					petsex: petsex,
 					age: age
 				};
-
+				//if there are notes on the pet, the info is appended to petinfo{} object
 				if (petnotes) petinfo[petnotes] = petnotes;
-
+				//this function converts pet's location to lat & lang, and passes on petinfo{} obj to addMarker()
 				petZipCodeQuery(petinfo);	
 			}
 
@@ -257,37 +258,44 @@ function rescueGroupsQuery(){
 //Center the map with user's zipcode. 
 function initMap(latitude, longitude) {
 	var myLatLng = {lat: latitude, lng: longitude};
+
 	var googleMapOptions = {
 	zoom: 9,
 	center: myLatLng,
 	draggable: true
 	};
 	
+	//create new map on HTML in div#map
 	map = new google.maps.Map(document.getElementById("map"), googleMapOptions);
 
+	//place a marker with user's location
 	var marker = new google.maps.Marker({
         position: myLatLng,
         map: map
 	});
 
+	//create a pop-up info window for the map marker
 	var infowindow = new google.maps.InfoWindow({
 		content: 'This is your location!'
 	});
 
+	//create an event listener for the infowindow
 	marker.addListener('mouseover', function() {
       infowindow.open(map, this);
+      //infowindow closes automatically after 2 secs
       setTimeout(function () { infowindow.close(); }, 2000);
     });
 }
 
 
-//Called by petZipCodeQuery()
+//Called by petZipCodeQuery(), which in turn is called in a for loop in rescueGroupsQuery()
 //used to populate a marker for each pet
 function addMarker(location, petinfo) {
 
 	var myLatLng = {lat: location.lat, lng: location.lng};
 	// console.log('location: ' + location.lat + ' ' +location.lng);	
 
+	//content of popup infowindow for each marker on the map
 	var contentString = '<img width="100px" src = "' + 
 		petinfo.petphoto+ '">' + 
 		'<p>'+ petinfo.name + '</p>' + 
@@ -298,12 +306,15 @@ function addMarker(location, petinfo) {
 		'<p>' + petinfo.age + '</p>'
 		;
 
+	//if a pet comes with additional notes, the info is appended to the infowindow
 	if (petinfo.petnotes) contentString = contentString + '<p>' + petinfo.petnotes + '</p>';
 
+	//create new infowindow. its contents are in contentString
 	var infowindow = new google.maps.InfoWindow({
 		content: contentString
 	});
 
+	//create new marker
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
@@ -313,6 +324,7 @@ function addMarker(location, petinfo) {
         draggable: true
     });
 
+    //crate event listener for each marker
     marker.addListener('mouseover', function() {
       infowindow.open(map, marker);
       marker.addListener('mouseout', function(){
