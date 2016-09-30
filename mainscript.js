@@ -24,7 +24,7 @@ function youtubeQuery(){
 	var animalBreed = breedInput;
 	var	APIkey = "AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs";
 	var	baseURL = "https://www.googleapis.com/youtube/v3/search?";
-	var queryURL = baseURL + 'part=snippet&key=' + APIkey + '&q=' + animalBreed + '%20heartwarming';
+	var queryURL = baseURL + 'part=snippet&key=' + APIkey + '&q=' + animalBreed + 'dog%20heartwarming';
 
 	$.ajax({
 		url: queryURL,
@@ -265,6 +265,14 @@ function initMap(latitude, longitude) {
         map: map
 	});
 
+	var infowindow = new google.maps.InfoWindow({
+		content: 'This is your location!'
+	});
+
+	marker.addListener('click', function() {
+      infowindow.open(map, this);
+      setTimeout(function () { infowindow.close(); }, 2000);
+    });
 }
 
 
@@ -304,8 +312,11 @@ function addMarker(location, petinfo) {
         draggable: true
     });
 
-    marker.addListener('click', function() {
+    marker.addListener('mouseover', function() {
       infowindow.open(map, marker);
+      marker.addListener('mouseout', function(){
+      	infowindow.close();
+      });
     });
 }
 
