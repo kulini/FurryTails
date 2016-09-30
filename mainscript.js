@@ -118,7 +118,7 @@ function petZipCodeQuery(petinfo){
 function rescueGroupsQuery(){
 	//User input for zipcode
 	zipInput = $('#zipInput').val().trim();
-	// breedInput = $('#breedInput').val().trim();
+	breedInput = $('#breedInput').val().trim();
 
 	var thing = {
 		"apikey":"2mV1s2Z2",
@@ -128,7 +128,7 @@ function rescueGroupsQuery(){
 			{
 				"calcFoundRows":"Yes",
 				"resultStart":0,
-				"resultLimit":10,
+				"resultLimit":50,
 				//Properties of each pet that the query returns
 				"fields":
 					[	"animalName", 
@@ -165,6 +165,10 @@ function rescueGroupsQuery(){
 						{"fieldName":"animalSpecies",
 						"operation":"equals",
 						"criteria":"dog"},
+
+						{"fieldName":"animalBreed",
+						"operation":"contains",
+						"criteria": breedInput},
 	// {"fieldName":"animalBreed","operation":"equals","criteria": breedInput},
 						{"fieldName":"animalLocationDistance",
 						"operation":"radius",
