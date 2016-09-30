@@ -286,9 +286,9 @@ function addMarker(location, petinfo) {
         map: map,
         icon: test,
         title: "blah"
-        // infowindow: myinfowindow,
-        // animation: google.maps.Animation.DROP,
-        // draggable: true
+        infowindow: myinfowindow,
+        animation: google.maps.Animation.DROP,
+        draggable: true
     });
 
     marker.addListener('click', function() {
