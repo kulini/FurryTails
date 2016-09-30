@@ -1,10 +1,11 @@
 //GLOBAL VARIABLES
+//user input from the search fields
 var breedInput;
 var zipInput;
 //initializing the variable for the google map
 var map;
 
-//When user presses submit button, stores user input in a variable and 
+//When user presses submit button, store user input in a variable and...
 $('#submitBtn').on('click', function(){
 	breedInput = $('#breedInput').val().trim();
 	zipInput = $('#zipInput').val().trim();
@@ -72,13 +73,14 @@ function userZipCodeQuery(){
 		latitude = response.results[0].location.lat;
 		longitude = response.results[0].location.lng;
 		
-		//calls function that displays google map
+		//call function that initializes google map centered on user location
 		initMap(latitude, longitude);
 	});
 }
 
-//This function is called by rescueGroupsQuery()
+//This function is called inside rescueGroupsQuery() in a for loop for each pet returned by query
 //convert city & state of each pet into an object containg lat and long
+//addMarker(), which  is called within this function
 function petZipCodeQuery(petinfo){
 
 	var animalAddress = petinfo.location;
@@ -97,14 +99,13 @@ function petZipCodeQuery(petinfo){
 		latitude = response.results[0].location.lat;
 		longitude = response.results[0].location.lng;
 
-		//creates an object with latitude and longitude
+		//create an object with latitude and longitude
 		var latAndLng = {
 			'lat': latitude,
 			'lng': longitude
 		}
 
 		addMarker(latAndLng, petinfo);
-
 	});
 }
 
@@ -220,6 +221,7 @@ function rescueGroupsQuery(){
 				var petlocation = animalName[i].animalLocationCitystate;
 				var petnotes = animalName[i].animalNotes;
 				var petbreed = animalName[i].animalPrimaryBreed;
+				var petsex = animalName[i].animalSex;
 				//
 				var petinfo = {
 					location: location,
@@ -227,7 +229,8 @@ function rescueGroupsQuery(){
 					petphoto: petphoto,
 					petphone: petphone,
 					petlocation: petlocation,
-					petbreed: petbreed
+					petbreed: petbreed,
+					petsex: petsex
 				};
 
 				if (petnotes) petinfo[petnotes] = petnotes;
@@ -253,7 +256,7 @@ function rescueGroupsQuery(){
 function initMap(latitude, longitude) {
 	var myLatLng = {lat: latitude, lng: longitude};
 	var googleMapOptions = {
-	zoom: 8,
+	zoom: 9,
 	center: myLatLng,
 	draggable: true
 	};
@@ -269,7 +272,7 @@ function initMap(latitude, longitude) {
 		content: 'This is your location!'
 	});
 
-	marker.addListener('click', function() {
+	marker.addListener('mouseover', function() {
       infowindow.open(map, this);
       setTimeout(function () { infowindow.close(); }, 2000);
     });
@@ -279,22 +282,17 @@ function initMap(latitude, longitude) {
 //Called by petZipCodeQuery()
 //used to populate a marker for each pet
 function addMarker(location, petinfo) {
-	// map =  google.maps.Map(document.getElementById("map")); don't need this?
-	// var mytext = 'Infowindow contents in HTML'
-	// var myinfowindow = new google.maps.InfoWindow({
-	// 	content: mytext
-	// });
 
-	//Places a pawprint marker for each pet on the map
 	var myLatLng = {lat: location.lat, lng: location.lng};
-	console.log('location: ' + location.lat + ' ' +location.lng);	
-	// alert('hi'); this works
+	// console.log('location: ' + location.lat + ' ' +location.lng);	
+
 	var contentString = '<img width="100px" src = "' + 
 		petinfo.petphoto+ '">' + 
 		'<p>'+ petinfo.name + '</p>' + 
 		'<p>' + petinfo.petphone + '</p>' +
 		'<p>' + petinfo.petlocation + '</p>' +
-		'<p>' + petinfo.petbreed + '</p>'
+		'<p>' + petinfo.petbreed + '</p>' +
+		'<p>' + petinfo.petsex + '</p>'
 		;
 
 	if (petinfo.petnotes) contentString = contentString + '<p>' + petinfo.petnotes + '</p>';
