@@ -201,11 +201,12 @@ function rescueGroupsQuery(){
 	  dataType: "jsonp",
 	  success: function(response) {
 	        if (response.foundRows) {
-	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + response.foundRows;
+	        	// document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + animalName.length;
 	        }
 
 	        // USE LO DASH " _. " TO TRANSFORM AN OBJECT TO AN ARRAY
 	        var animalName = _.toArray(response.data);
+
 	 		// console.log(animalName);
 	 		var location; 
 			
@@ -214,6 +215,9 @@ function rescueGroupsQuery(){
 				location = animalName[i].animalLocationCitystate;
 				//convert location data to string
 				location = location.toString();
+
+				//display the number of available pets in HTML
+	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + i;
 
 				//fetch info about each pet
 				var petphoto = animalName[i].animalPictures[0].urlInsecureThumbnail;
@@ -236,11 +240,12 @@ function rescueGroupsQuery(){
 					petsex: petsex,
 					age: age
 				};
+
 				//if there are notes on the pet, the info is appended to petinfo{} object
 				if (petnotes) petinfo['petnotes'] = petnotes;
 				//this function converts pet's location to lat & lang, and passes on petinfo{} obj to addMarker()
 				petZipCodeQuery(petinfo);	
-			}
+			}//END for loop
 
 	  },
 	  error: function(xhr, status, error) {
