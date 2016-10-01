@@ -297,7 +297,7 @@ function addMarker(location, petinfo) {
 
 	//content of popup infowindow for each marker on the map
 	var contentString = '<div id="iw-container">'+
-		'<p class="iw-title">'+ petinfo.name + '</p>' + 
+		'<p class="iw-title">'+ petinfo.name + '</p>' +'<p>'+ "" +'</p>'+
 		'<img width="150px" src = "' + 
 		petinfo.petphoto+ '">' + 
 		'<p>' + petinfo.petphone + '</p>' +
@@ -330,6 +330,10 @@ function addMarker(location, petinfo) {
       infowindow.open(map, marker);
       marker.addListener('mouseout', function(){
       	infowindow.close();
+
+      	
+
+
       });
     });
 }
