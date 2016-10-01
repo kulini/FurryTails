@@ -84,7 +84,7 @@ function userZipCodeQuery(){
 //addMarker(), which  is called within this function
 function petZipCodeQuery(petinfo){
 
-	var animalAddress = petinfo.location;
+	var animalAddress = petinfo.petlocation;
 	//Geocodio API
 	// var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
 	var APIkey = 'bc3ee7b7ee43c589873b8c7ce5fc77bbbc5c5e8';
@@ -211,10 +211,6 @@ function rescueGroupsQuery(){
 	 		var location; 
 			
 			for(var i=0; i<animalName.length; i++) {
-				//fetch the City and State of each pet from the API call
-				location = animalName[i].animalLocationCitystate;
-				//convert location data to string
-				location = location.toString();
 
 				//display the number of available pets in HTML
 	        	document.getElementById('adoptedPetsCount').innerHTML = 'Pets available for adoption: ' + i;
