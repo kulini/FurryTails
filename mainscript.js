@@ -25,7 +25,7 @@ function youtubeQuery(){
 	var animalBreed = breedInput;
 	var	APIkey = "AIzaSyBF2-UAzVkNHsKCPjqK91XBV4slMveK4Gs";
 	var	baseURL = "https://www.googleapis.com/youtube/v3/search?";
-	var queryURL = baseURL + 'part=snippet&key=' + APIkey + '&q=' + animalBreed + 'dog%20heartwarming';
+	var queryURL = baseURL + 'part=snippet&key=' + APIkey + '&q=' + animalBreed + 'pet%20heartwarming';
 
 	$.ajax({
 		url: queryURL,
@@ -59,7 +59,8 @@ function displayYoutube(data){
 function userZipCodeQuery(){
 	var userZip = zipInput;
 	//Geocodio API
-	var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
+	// var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
+	var APIkey = 'bc3ee7b7ee43c589873b8c7ce5fc77bbbc5c5e8';
 	var baseURL = 'https://api.geocod.io/v1/geocode?api_key=';
 	var queryURL = baseURL+ APIkey + '&q=' + userZip;
 
@@ -85,7 +86,8 @@ function petZipCodeQuery(petinfo){
 
 	var animalAddress = petinfo.location;
 	//Geocodio API
-	var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
+	// var APIkey = '8e4e51c5c74dfc7cf55e8e7788c7fce46c55e5d';
+	var APIkey = 'bc3ee7b7ee43c589873b8c7ce5fc77bbbc5c5e8';
 	var baseURL = 'https://api.geocod.io/v1/geocode?api_key=';
 	var queryURL = baseURL+ APIkey + '&q=' + animalAddress;
 
