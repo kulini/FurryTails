@@ -296,14 +296,15 @@ function addMarker(location, petinfo) {
 	// console.log('location: ' + location.lat + ' ' +location.lng);	
 
 	//content of popup infowindow for each marker on the map
-	var contentString = '<img width="150px" src = "' + 
+	var contentString = '<div id="iw-container">'+
+		'<p class="iw-title">'+ petinfo.name + '</p>' + 
+		'<img width="150px" src = "' + 
 		petinfo.petphoto+ '">' + 
-		'<p>'+ petinfo.name + '</p>' + 
 		'<p>' + petinfo.petphone + '</p>' +
 		'<p>' + petinfo.petlocation + '</p>' +
 		'<p>' + petinfo.petbreed + '</p>' +
 		'<p>' + petinfo.petsex + '</p>' + 
-		'<p>' + petinfo.age + '</p>'
+		'<p>' + petinfo.age + '</p>'+ '</div>'
 		;
 
 	//if a pet comes with additional notes, the info is appended to the infowindow
